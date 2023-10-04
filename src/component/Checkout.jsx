@@ -1,31 +1,3 @@
-// import React, { useEffect } from "react";
-// import { useSelector } from "react-redux";
-
-// const Checkout = () => {
-//   const state = useSelector((state) => state.handleCart);
-//   let total = 0;
-
-//   const itemList = (item) => {
-//     return (
-//       <li className="list-group-item d-flex justify-content-between lh-sm">
-//         <div>
-//           <h6 className="my-0">{item.title}</h6>
-//         </div>
-//         <span className="text-muted">${item.price}</span>
-//       </li>
-//     );
-//   };
-
-//   // state.forEach((item) => {
-//   //   total += item.price;
-//   // });
-
-//   useEffect(() => {
-//     state.forEach((item) => {
-//       total += item.qty * item.price;
-//     });
-//   }, [state]);
-
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -34,12 +6,20 @@ const Checkout = () => {
   const [total, setTotal] = useState(0); // Use state to store total
 
   const itemList = (item) => {
+    const itemTotal = item.qty * item.price; // Calculate item total
     return (
       <li className="list-group-item d-flex justify-content-between lh-sm">
         <div>
-          <h6 className="my-0">{item.title}</h6>
+          <h6 className="my-0">
+            {item.title}
+            {/* Display quantity */}
+          </h6>
+          <small className="text-muted">
+            (${item.price} x {item.qty}) =
+          </small>
         </div>
-        <span className="text-muted">${item.price}</span>
+        <div className="text-muted m-2">${itemTotal}</div>
+        {/* Display item total */}
       </li>
     );
   };
@@ -147,7 +127,7 @@ const Checkout = () => {
 
                 <div className="col-12">
                   <label htmlFor="email" className="form-label">
-                    Email <span className="text-muted">(Optional)</span>
+                    Email
                   </label>
                   <input
                     type="email"
@@ -250,7 +230,7 @@ const Checkout = () => {
                   id="save-info"
                 />
                 <label className="form-check-label" htmlFor="save-info">
-                  Save this information htmlFor next time
+                  Save this information for next time
                 </label>
               </div>
 
