@@ -4,6 +4,58 @@ import { useSelector } from "react-redux";
 const Checkout = () => {
   const state = useSelector((state) => state.handleCart);
   const [total, setTotal] = useState(0); // Use state to store total
+  const nigState = () => {
+    const States = [
+      "Abuja",
+      "Abia",
+      "Adamawa",
+      "Akwa Ibom",
+      "Anambra",
+      "Bauchi",
+      "Bayelsa",
+      "Benue",
+      "Borno",
+      "Cross River",
+      "Delta",
+      "Ebonyi",
+      "Edo",
+      "Ekiti",
+      "Enugu",
+      "Gombe",
+      "Imo",
+      "Jigawa",
+      "Kaduna",
+      "Kano",
+      "Katsina",
+      "Kebbi",
+      "Kogi",
+      "Kwara",
+      "Lagos",
+      "Nasarawa",
+      "Niger",
+      "Ogun",
+      "Ondo",
+      "Osun",
+      "Oyo",
+      "Plateau",
+      "Rivers",
+      "Sokoto",
+      "Taraba",
+      "Yobe",
+      "Zamfara",
+    ];
+
+    return (
+      <select className="form-select" id="state" required="">
+        <option value="">Choose...</option>
+        {States.map((state, index) => (
+          <option key={index} value={state}>
+            {state}
+          </option>
+        ))}
+      </select>
+    );
+  };
 
   const itemList = (item) => {
     const itemTotal = item.qty * item.price; // Calculate item total
@@ -11,8 +63,8 @@ const Checkout = () => {
       <li className="list-group-item d-flex justify-content-between lh-sm">
         <div>
           <h6 className="my-0">
-            {item.title}
-            {/* Display quantity */}
+            {item.name}
+            {/* Display Name */}
           </h6>
           <small className="text-muted">
             (${item.price} x {item.qty}) =
@@ -38,8 +90,8 @@ const Checkout = () => {
         <div className="row g-5">
           <div className="col-md-5 col-lg-4 order-md-last">
             <h4 className="d-flex justify-content-between align-items-center mb-3">
-              <span className="text-primary">Your cart</span>
-              <span className="badge bg-primary rounded-pill">
+              <span className="text-success">Your cart</span>
+              <span className="badge bg-success rounded-pill">
                 {state ? state.length : 0}
               </span>
             </h4>
@@ -74,13 +126,13 @@ const Checkout = () => {
               <div className="row g-3">
                 <div className="col-sm-6">
                   <label htmlFor="firstName" className="form-label">
-                    First name
+                    First Name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="firstName"
-                    placeholder=""
+                    placeholder="Firstname"
                     value=""
                     required=""
                   />
@@ -91,18 +143,18 @@ const Checkout = () => {
 
                 <div className="col-sm-6">
                   <label htmlFor="lastName" className="form-label">
-                    Last name
+                    Last Name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="lastName"
-                    placeholder=""
+                    placeholder="Lastname"
                     value=""
                     required=""
                   />
                   <div className="invalid-feedback">
-                    Valid last name is required.
+                    Valid Last Name is required.
                   </div>
                 </div>
 
@@ -120,7 +172,7 @@ const Checkout = () => {
                       required=""
                     />
                     <div className="invalid-feedback">
-                      Your username is required.
+                      Username is required.
                     </div>
                   </div>
                 </div>
@@ -136,8 +188,7 @@ const Checkout = () => {
                     placeholder="you@example.com"
                   />
                   <div className="invalid-feedback">
-                    Please enter a valid email address html for shipping
-                    updates.
+                    Please enter a valid email address for shipping updates.
                   </div>
                 </div>
 
@@ -149,7 +200,7 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="address"
-                    placeholder="1234 Main St"
+                    placeholder="Benin City, Nigeria."
                     required=""
                   />
                   <div className="invalid-feedback">
@@ -175,6 +226,7 @@ const Checkout = () => {
                   </label>
                   <select className="form-select" id="country" required="">
                     <option value="">Choose...</option>
+                    <option>Nigeria</option>
                     <option>United States</option>
                   </select>
                   <div className="invalid-feedback">
@@ -186,10 +238,7 @@ const Checkout = () => {
                   <label htmlFor="state" className="form-label">
                     State
                   </label>
-                  <select className="form-select" id="state" required="">
-                    <option value="">Choose...</option>
-                    <option>California</option>
-                  </select>
+                  {nigState()}
                   <div className="invalid-feedback">
                     Please provide a valid state.
                   </div>
