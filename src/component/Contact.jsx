@@ -13,7 +13,7 @@ const Contact = () => {
         <div className="row">
           <div className="col-md 5 d-flex justify-content-center">
             <img
-              src="/assets/images/contact.png"
+              src="/assets/img/contact.png"
               alt="Contact Us"
               height="300px"
               width="300px"
@@ -22,36 +22,32 @@ const Contact = () => {
           <div className="col-md-6">
             <form>
               <div class="mb-3">
-                <label for="exampleForm" class="form-label">
+                <label for="fullname" class="form-label">
                   Full Name
                 </label>
                 <input
                   type="text"
                   class="form-control"
-                  id="exampleForm"
-                  placeholder="John Smith"
+                  id="fullname"
+                  placeholder="Felix Ajibola"
                 />
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">
-                  Email address
+                <label for="email" class="form-label">
+                  Email Address
                 </label>
                 <input
                   type="email"
                   class="form-control"
-                  id="exampleFormControlInput1"
+                  id="email"
                   placeholder="name@example.com"
                 />
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">
-                  Example textarea
+                <label for="msg" class="form-label">
+                  Message
                 </label>
-                <textarea
-                  class="form-control"
-                  id="exampleFormControlTextarea1"
-                  rows="5"
-                ></textarea>
+                <textarea class="form-control" id="msg" rows="5"></textarea>
               </div>
               <button type="submit" class="btn btn-outline-primary">
                 Send Message
