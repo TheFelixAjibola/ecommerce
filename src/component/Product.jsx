@@ -3,11 +3,22 @@ import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 import { NavLink, useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import data from "./data/db.json";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Set loading to true initially
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAddToCart = () => {
+    addProduct(product);
+    setShowAlert(true);
+    // Hide the alert after 5 seconds
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+  };
 
   const dispatch = useDispatch();
   const addProduct = (product) => {
@@ -15,23 +26,17 @@ const Product = () => {
   };
 
   useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        // Handle the error here (e.g., set an error state)
-      } finally {
-        setLoading(false);
-      }
-    };
-    getProduct();
+    setLoading(true); // Set loading to true when starting the fetch
+
+    // Find the product by id in the imported data
+    const productData = data.find((item) => item.id === parseInt(id));
+
+    if (productData) {
+      setProduct(productData);
+      setLoading(false); // Set loading to false after data is fetched or checked
+    } else {
+      setLoading(false); // Set loading to false if the product is not found
+    }
   }, [id]);
 
   const Loading = () => {
@@ -54,19 +59,23 @@ const Product = () => {
   };
 
   const ShowProduct = () => {
+    if (!product) {
+      return null;
+    }
+
     return (
       <div className="d-flex">
         <div className="col-md-6">
           <img
             src={product.image}
-            alt={product.title}
+            alt={product.name}
             height="500px"
             width="500px"
           />
         </div>
         <div className="col-md-6">
           <h4 className="text-uppercase text-black-50">{product.category}</h4>
-          <h1 className="display-5">{product.title}</h1>
+          <h1 className="display-5">{product.name}</h1>
           <p className="lead fw-bolder">
             Rating {product.rating && product.rating.rate}
             <i className="fa fa-star"></i>
@@ -75,10 +84,16 @@ const Product = () => {
           <p className="lead">{product.description}</p>
           <button
             className="btn btn-outline-dark px-4 py-2"
-            onClick={() => addProduct(product)}
+            onClick={() => handleAddToCart()}
           >
             Add to Cart
           </button>
+          <NavLink
+            to="/products"
+            className="btn btn-outline-dark ms-2 px-4 py-2"
+          >
+            Continue Shopping
+          </NavLink>
           <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">
             Go to Cart
           </NavLink>
@@ -91,7 +106,12 @@ const Product = () => {
     <div>
       <div className="container py-5">
         <div className="row py-5">
-          {loading ? <Loading /> : product ? <ShowProduct /> : null}
+          {loading ? <Loading /> : <ShowProduct />}
+          {showAlert && (
+            <div className="alert alert-success mt-3" role="alert">
+              {product && product.name} added to cart.
+            </div>
+          )}
         </div>
       </div>
     </div>

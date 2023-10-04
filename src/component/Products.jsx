@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink } from "react-router-dom";
+import data from "./data/db.json";
 
 const Products = () => {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
-  const [loading, setLoading] = useState(false);
-  let componentMounted = true;
-  let API_URL = "https://fakestoreapi.com/products";
+  const [datas, setDatas] = useState([]);
+  const [filter, setFilter] = useState([]);
+  const [loading, setLoading] = useState(true); // Set loading to true initially
 
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
+    setLoading(true); // Set loading to true when starting the fetch data
 
-      const response = await fetch(API_URL);
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-        console.log(filter);
-      }
-
-      return () => {
-        componentMounted = false;
-      };
-    };
-    getProducts();
+    setTimeout(() => {
+      setDatas(datas); // Update the data state with the local data
+      setFilter(data);
+      setLoading(false); // Set loading to false after data is fetched
+    }, 500);
   }, []);
 
   const Loading = () => {
@@ -48,8 +38,13 @@ const Products = () => {
   };
 
   const filterProduct = (cat) => {
-    const updatedList = data.filter((x) => x.category === cat);
-    setFilter(updatedList);
+    if (cat === "") {
+      // If the category is empty, set the filter to all products
+      setFilter(data);
+    } else {
+      const updatedList = data.filter((x) => x.category === cat);
+      setFilter(updatedList);
+    }
   };
 
   const ShowProducts = () => {
@@ -58,37 +53,41 @@ const Products = () => {
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => setFilter(data)}
+            onClick={() => filterProduct("")}
           >
             All
           </button>
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => filterProduct("men's clothing")}
+            onClick={() => filterProduct("Men")}
           >
-            Men's Footware
+            Men's Shoes
+          </button>
+          <button
+            className="btn btn-outline-dark me-2"
+            onClick={() => filterProduct("Women")}
+          >
+            Women's Shoes
           </button>
           <button
             className="btn btn-outline-dark"
-            onClick={() => filterProduct("women's clothing")}
+            onClick={() => filterProduct("Unisex")}
           >
-            Women's Footware
+            Unisex Shoes
           </button>
         </div>
         {filter.map((product) => {
           return (
-            <div className="col-md-3 mb-4">
-              <div className="card h-100 text-center p-4" key={product.id}>
+            <div className="col-md-3 mb-4" key={product.id}>
+              <div className="card h-100 text-center p-4">
                 <img
                   src={product.image}
                   className="card-img-top"
-                  alt={product.title}
+                  alt={product.name}
                   height="250px"
                 />
                 <div className="card-body">
-                  <h5 className="card-title mb-0">
-                    {product.title.substring(0, 12)}...
-                  </h5>
+                  <h5 className="card-title mb-0">{product.name}</h5>
                   <p className="card-text lead fw-bold">${product.price}</p>
                   <NavLink
                     to={`/products/${product.id}`}
