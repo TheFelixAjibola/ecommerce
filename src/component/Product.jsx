@@ -8,13 +8,12 @@ import data from "./data/db.json";
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true); // Set loading to true initially
+  const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
 
   const handleAddToCart = () => {
     addProduct(product);
     setShowAlert(true);
-    // Hide the alert after 5 seconds
     setTimeout(() => {
       setShowAlert(false);
     }, 5000);
@@ -26,26 +25,25 @@ const Product = () => {
   };
 
   useEffect(() => {
-    setLoading(true); // Set loading to true when starting the fetch
+    setLoading(true);
 
-    // Find the product by id in the imported data
     const productData = data.find((item) => item.id === parseInt(id));
 
     if (productData) {
       setProduct(productData);
-      setLoading(false); // Set loading to false after data is fetched or checked
+      setLoading(false);
     } else {
-      setLoading(false); // Set loading to false if the product is not found
+      setLoading(false);
     }
   }, [id]);
 
   const Loading = () => {
     return (
       <>
-        <div className="col-md-6">
+        <div className="col-12 col-md-6">
           <Skeleton height={400} />
         </div>
-        <div className="col-md-6" style={{ lineHeight: 2 }}>
+        <div className="col-12 col-md-6" style={{ lineHeight: 2 }}>
           <Skeleton height={50} width={300} />
           <Skeleton height={75} />
           <Skeleton height={25} width={150} />
@@ -64,16 +62,11 @@ const Product = () => {
     }
 
     return (
-      <div className="d-flex">
-        <div className="col-md-6">
-          <img
-            src={product.image}
-            alt={product.name}
-            height="500px"
-            width="500px"
-          />
+      <div className="row">
+        <div className="col-12 col-md-6">
+          <img src={product.image} alt={product.name} className="img-fluid" />
         </div>
-        <div className="col-md-6">
+        <div className="col-12 col-md-6 mt-3">
           <h4 className="text-uppercase text-black-50">{product.category}</h4>
           <h1 className="display-5">{product.name}</h1>
           <p className="lead fw-bolder">
