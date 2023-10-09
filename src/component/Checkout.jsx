@@ -192,11 +192,11 @@ const Checkout = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">
+                        <label htmlFor="address" className="form-label">
                           Address
                         </label>
                         <input
-                          type="tel"
+                          type="text"
                           className="form-control"
                           id="address"
                           value={address}
