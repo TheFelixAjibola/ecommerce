@@ -62,7 +62,7 @@ const Product = () => {
     }
 
     return (
-      <div className="row">
+      <div className="row p-4">
         <div className="col-12 col-md-6">
           <img src={product.image} alt={product.name} className="img-fluid" />
         </div>
@@ -71,10 +71,10 @@ const Product = () => {
           <h1 className="display-5">{product.name}</h1>
           <p className="lead fw-bolder">
             Rating {product.rating && product.rating.rate}
-            <i className="fa fa-star"></i>
+            <i className="ms-2 fa fa-star"></i>
           </p>
           <h3 className="display-6 fw-bold my-4">$ {product.price}</h3>
-          <p className="lead">{product.description}</p>
+          <p className="lead text-justify">{product.description}</p>
           <button
             className="btn btn-outline-dark px-4 py-2"
             onClick={() => handleAddToCart()}
@@ -83,7 +83,7 @@ const Product = () => {
           </button>
           <NavLink
             to="/products"
-            className="btn btn-outline-dark ms-2 px-4 py-2"
+            className="btn btn-outline-dark ms-2 px-2 py-2"
           >
             Continue Shopping
           </NavLink>

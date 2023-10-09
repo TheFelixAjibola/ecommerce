@@ -31,13 +31,14 @@ const Cart = () => {
       <>
         <div className="px-4 my-5 bg-light rounded-3 py-5">
           <div className="container py-4">
-            <div className="row justify-content-center">
+            <div className="row justify-content-center d-flex">
               <div className="col-md-4">
                 <img
                   src={product.image}
                   alt={product.name}
-                  height="200px"
+                  height="250px"
                   width="180px"
+                  // className="img-fluid"
                 />
               </div>
               <div className="col-md-4">
