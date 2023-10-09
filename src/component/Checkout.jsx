@@ -1,9 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const Checkout = () => {
   const state = useSelector((state) => state.handleCart);
+
   const [total, setTotal] = useState(0); // Use state to store total
+  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [address, setAddress] = useState("");
+  const URL = "http://localhost:3000/paystack_API";
+  const form = new FormData();
+  form.append("email", email);
+  form.append("firstname", firstname);
+  form.append("lastname", lastname);
+  form.append("address", address);
+
+  async function paystackpay(e) {
+    e.preventDefault();
+    await axios
+      .post(URL, form, {
+        headers: {
+          "X-Requested": "XMLHttpRequest",
+        },
+      })
+      .then((response) => {
+        let data = "";
+      })
+      .catch((error) => console.log(error));
+  }
+
   const nigState = () => {
     const States = [
       "Abuja",
@@ -107,7 +135,7 @@ const Checkout = () => {
             ) : (
               <p>Your cart is empty.</p>
             )}
-            <form className="card p-2">
+            <form className="card p-3 rounded-3 shadow">
               <div className="input-group">
                 <input
                   type="text"
@@ -122,7 +150,7 @@ const Checkout = () => {
           </div>
           <div className="col-md-7 col-lg-8">
             <h4 className="mb-3">Billing address</h4>
-            <form className="needs-validation" novalidate="">
+            <form className="needs-validation" noValidate>
               <div className="row g-3">
                 <div className="col-sm-6">
                   <label htmlFor="firstName" className="form-label">
@@ -132,9 +160,10 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="firstName"
-                    placeholder="Firstname"
-                    value=""
-                    required=""
+                    placeholder="First Name"
+                    onChange={(e) => setFirstname(e.target.value)}
+                    value={firstname}
+                    required
                   />
                   <div className="invalid-feedback">
                     Valid first name is required.
@@ -149,9 +178,10 @@ const Checkout = () => {
                     type="text"
                     className="form-control"
                     id="lastName"
-                    placeholder="Lastname"
-                    value=""
-                    required=""
+                    placeholder="Last Name"
+                    onChange={(e) => setLastname(e.target.value)}
+                    value={lastname}
+                    required
                   />
                   <div className="invalid-feedback">
                     Valid Last Name is required.
@@ -169,7 +199,7 @@ const Checkout = () => {
                       className="form-control"
                       id="username"
                       placeholder="Username"
-                      required=""
+                      required
                     />
                     <div className="invalid-feedback">
                       Username is required.
@@ -186,6 +216,8 @@ const Checkout = () => {
                     className="form-control"
                     id="email"
                     placeholder="you@example.com"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                   />
                   <div className="invalid-feedback">
                     Please enter a valid email address for shipping updates.
@@ -201,7 +233,9 @@ const Checkout = () => {
                     className="form-control"
                     id="address"
                     placeholder="Benin City, Nigeria."
-                    required=""
+                    onChange={(e) => setAddress(e.target.value)}
+                    value={address}
+                    required
                   />
                   <div className="invalid-feedback">
                     Please enter your shipping address.
@@ -224,7 +258,7 @@ const Checkout = () => {
                   <label htmlFor="country" className="form-label">
                     Country
                   </label>
-                  <select className="form-select" id="country" required="">
+                  <select className="form-select" id="country" required>
                     <option value="">Choose...</option>
                     <option>Nigeria</option>
                     <option>United States</option>
@@ -253,7 +287,7 @@ const Checkout = () => {
                     className="form-control"
                     id="zip"
                     placeholder=""
-                    required=""
+                    required
                   />
                   <div className="invalid-feedback">Zip code required.</div>
                 </div>
@@ -294,8 +328,8 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="form-check-input"
-                    checked=""
-                    required=""
+                    checked
+                    required
                   />
                   <label className="form-check-label" htmlFor="credit">
                     Credit card
@@ -307,7 +341,7 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="form-check-input"
-                    required=""
+                    required
                   />
                   <label className="form-check-label" htmlFor="debit">
                     Debit card
@@ -319,7 +353,7 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     className="form-check-input"
-                    required=""
+                    required
                   />
                   <label className="form-check-label" htmlFor="paypal">
                     PayPal
@@ -337,7 +371,7 @@ const Checkout = () => {
                     className="form-control"
                     id="cc-name"
                     placeholder=""
-                    required=""
+                    required
                   />
                   <small className="text-muted">
                     Full name as displayed on card
@@ -356,7 +390,7 @@ const Checkout = () => {
                     className="form-control"
                     id="cc-number"
                     placeholder=""
-                    required=""
+                    required
                   />
                   <div className="invalid-feedback">
                     Credit card number is required
@@ -372,7 +406,7 @@ const Checkout = () => {
                     className="form-control"
                     id="cc-expiration"
                     placeholder=""
-                    required=""
+                    required
                   />
                   <div className="invalid-feedback">
                     Expiration date required
@@ -388,7 +422,7 @@ const Checkout = () => {
                     className="form-control"
                     id="cc-cvv"
                     placeholder=""
-                    required=""
+                    required
                   />
                   <div className="invalid-feedback">Security code required</div>
                 </div>
@@ -396,8 +430,12 @@ const Checkout = () => {
 
               <hr className="my-4" />
 
-              <button className="w-100 btn btn-primary btn-lg" type="submit">
-                Continue to checkout
+              <button
+                className="w-100 btn btn-primary btn-lg"
+                type="submit"
+                onClick={paystackpay}
+              >
+                Pay with Paystack
               </button>
             </form>
           </div>
