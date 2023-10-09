@@ -14,7 +14,7 @@ const PaymentSuccessful = () => {
                 processed.
               </p>
               {/* Add more information as needed */}
-              <NavLink to="/" className="btn btn-success">
+              <NavLink to="/" className="text-justify btn btn-success">
                 Continue Shopping
               </NavLink>
             </div>
