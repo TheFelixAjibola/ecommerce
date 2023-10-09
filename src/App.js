@@ -8,6 +8,7 @@ import Checkout from "./component/Checkout";
 import Contact from "./component/Contact";
 import About from "./component/About";
 import NotFound from "./component/NotFound";
+import PaymentSuccessful from "./component/PaymentSuccessful";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/contact" Component={Contact} />
         <Route exact path="/cart" Component={Cart} />
         <Route exact path="/checkout" Component={Checkout} />
+        <Route exact path="paymentsuccessful" Component={PaymentSuccessful} />
         <Route exact path="*" Component={NotFound} />
       </Routes>
     </div>
