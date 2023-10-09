@@ -44,7 +44,7 @@ const Cart = () => {
               <div className="col-md-4">
                 <h3>{product.name}</h3>
                 <p className="lead fw-bold">
-                  {product.qty} X ${product.price} = $
+                  {product.qty} X NGN{product.price} = NGN
                   {product.qty * product.price}
                 </p>
                 <button
